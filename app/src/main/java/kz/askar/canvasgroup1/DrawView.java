@@ -60,28 +60,44 @@ public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
                     long startTime = System.currentTimeMillis();
                     update();
                     draw(canvas);
+                    boolean check =true;
                     for(Rect q : rects){
+                        if(check){
 //                        if(Math.abs(kvadrat.getRect().centerX()-q.centerX())<50 && Math.abs(kvadrat.getRect().centerY()-q.centerY())<50){
                           if(q.intersect(kvadrat.getRect())){
-                            kvadrat.ySign=kvadrat.ySign*(-1);
-                            q.offset(-500,-500);
-                            rects.remove(q);
+                              Log.d("points","rock bottom"+ kvadrat.getRect().bottom+ "   q bottom "+q.bottom);
+                              Log.d("points","rock top"+ kvadrat.getRect().top+ "   q top "+q.top);
+                              if((kvadrat.getRect().right-q.left<10
+                                      ||
+                                      q.right-kvadrat.getRect().left<10)
+
+                                      ){
+                                  kvadrat.xSign=kvadrat.xSign*(-1);
+                                  Log.d("crash","right or left");
+                              }
+                              else {
+                                  kvadrat.ySign=kvadrat.ySign*(-1);
+                                  Log.d("crash","bottom");
+                              }
+                              q.offset(-500,-500);
+                              rects.remove(q);
+                              check=false;
                               break;
                         }
-                    }
+                    }}
                     if(kvadrat.getRect().intersect(rock.getRect()))kvadrat.ySign=kvadrat.ySign*(-1);
                     long drawTime = System.currentTimeMillis() - startTime;
                     float fps = 1000/(drawTime==0?1:drawTime);
                     Log.d("fps", fps+"");
                     surfaceHolder.unlockCanvasAndPost(canvas);
-                    if(kvadrat.b || rects.size()==0)method();
+                    if(kvadrat.b || rects.size()==0)isRunning=false;
 
                 }
             }
         });
     }
 
-    private void method() {t.destroy();
+    private void method() {;
     }
 
     @Override
