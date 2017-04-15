@@ -1,12 +1,14 @@
 package kz.askar.canvasgroup1;
 
+import android.content.Context;
 import android.graphics.Rect;
+import android.view.View;
 
 /**
  * Created by Zhakenov on 4/8/2017.
  */
 
-public class Kvadrat {
+public class Kvadrat  extends View {
 
     int x;
     int y;
@@ -17,7 +19,9 @@ public class Kvadrat {
     int xSign = 1;
     int ySign = 1;
 
-    public Kvadrat(int x, int y, int width, int height){
+    boolean b=false;
+    public Kvadrat(Context context,int x, int y, int width, int height){
+        super(context);
         this.x = x;
         this.y = y;
         this.width = width;
@@ -45,6 +49,7 @@ public class Kvadrat {
             ySign = 1;
         }else if(y+height>=screenHeight){
             y = screenHeight - height;
+            b=true;
             ySign = -1;
         }
     }
